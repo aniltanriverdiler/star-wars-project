@@ -1,0 +1,12 @@
+/* Hero Section Styles */
+.hero-section-bg {
+    background-image: url("assets/img/wp8143551-darth-sidious-lightsaber-wallpapers.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+  }
