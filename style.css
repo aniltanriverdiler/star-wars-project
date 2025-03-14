@@ -10,3 +10,13 @@
     text-align: center;
     color: white;
   }
+
+  .btn:hover {
+     background-color: #710100 !important;
+     border-color: #710100 !important;
+  }
+
+  .btn-outline-danger {
+   border-color: #710100 !important;
+   --bs-btn-color: #710100 !important;
+  }
