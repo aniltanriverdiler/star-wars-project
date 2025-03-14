@@ -20,3 +20,13 @@
    border-color: #710100 !important;
    --bs-btn-color: #710100 !important;
   }
+
+  /* Hero Section Styles */
+  .card {
+   width: 18rem;
+   height: 22rem;
+   background-color: #710100 !important;
+   color: white !important;
+  }
+ 
+ 
