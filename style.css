@@ -4,11 +4,11 @@
     background-size: cover;
     background-position: center;
     height: 100vh;
-    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
+    overflow: auto;
   }
 
   .btn:hover {
@@ -21,7 +21,7 @@
    --bs-btn-color: #710100 !important;
   }
 
-  /* Hero Section Styles */
+  /* Main Section Styles */
   .card {
    width: 18rem;
    height: 22rem;
@@ -29,4 +29,11 @@
    color: white !important;
   }
  
- 
+  .content-margin-custom {
+   margin-top: 120px;
+  }
+
+  .card-img-top {
+   max-height: 300px;
+   object-fit: contain;
+  }
