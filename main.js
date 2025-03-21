@@ -1,4 +1,4 @@
-const characters = [
+const charactersData = [
   {
     id: 1,
     name: "Luke Skywalker",
@@ -122,11 +122,154 @@ const characters = [
 
 console.log(characters);
 
+const homeworldsRaw = characters.map(
+  (homeworlds) => homeworlds.homeworld ?? "other"
+);
+console.log(homeworldsRaw);
+
+const homeworldsUnique = [...new Set(homeworldsRaw)];
+console.log(homeworldsUnique);
+
+const homeworldsLowercase = homeworldsUnique.map((homeworld) =>
+  homeworld.toLowerCase()
+);
+console.log(homeworldsLowercase);
+
+const homeworlds = homeworldsLowercase;
+console.log(homeworlds);
+
 const cardContainer = document.getElementById("cardContainer");
 const toggleBtn = document.getElementById("toggleBtn");
 
-function renderCharacters() {
+console.log(cardContainer);
+
+function renderCharacters(charactersToRender = characters) {
+  console.log(
+    "renderCharacters function ran, incoming characters:",
+    charactersToRender
+  );
+  console.log(
+    "Number of characters to be displayed on the screen:",
+    charactersToRender.length
+  );
+
   cardContainer.innerHTML = "";
+
+  const homeworld = characters.map(character => character.homeworld ? character.homeworld : "other");
+  console.log(homeworld);
+
+  const inputContainer = document.getElementById("inputContainer");
+
+  renderInput.forEach((homeworld) => {
+    inputContainer.innerHTML += `
+    <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="${homeworld}" id="${homeworld}" value="${homeworld}">
+  <label class="form-check-label" for="${homeworld}">
+    other
+  </label>
+  </div>
+  </div>
+    `
+  })
+  
+  /* const inputFields = `
+  <div id="homeworlds-filter-container" class="d-flex flex-row mb-3 justify-content-center gap-4">
+  
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-tatooine" value="tatooine">
+  <label class="form-check-label" for="homeworld-tatooine">
+   tatooine
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-naboo" value="naboo">
+  <label class="form-check-label" for="homeworld-naboo">
+    naboo
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-alderaan" value="alderaan">
+  <label class="form-check-label" for="homeworld-alderaan">
+    alderaan
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-stewjon" value="stewjon">
+  <label class="form-check-label" for="homeworld-stewjon">
+    stewjon
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-eriadu" value="eriadu">
+  <label class="form-check-label" for="homeworld-eriadu">
+    eriadu
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-kashyyyk" value="kashyyyk">
+  <label class="form-check-label" for="homeworld-kashyyyk">
+    kashyyyk
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-corellia" value="corellia">
+  <label class="form-check-label" for="homeworld-corellia">
+    corellia
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-rodia" value="rodia">
+  <label class="form-check-label" for="homeworld-rodia">
+    rodia
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-bestine" value="bestine">
+  <label class="form-check-label" for="homeworld-bestine">
+    bestine
+  </label>
+  </div>
+  </div>
+
+  <div class="d-flex">
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-other" value="other">
+  <label class="form-check-label" for="homeworld-other">
+    other
+  </label>
+  </div>
+  </div>
+
+  </div>
+  `; */
+
+  cardContainer.innerHTML += inputFields;
 
   characters.forEach((character, index) => {
     const cardTemplate = `
@@ -142,7 +285,52 @@ function renderCharacters() {
             `;
     cardContainer.innerHTML += cardTemplate;
   });
+
+  addFilterEventListener();
+  console.log("filteredCharacter");
+  console.log("Rendered characters:", characters);
 }
+
+function filterCharacter() {
+  const selectedRadio = document.querySelector(
+    'input[name="homeworld"]:checked'
+  );
+
+  if (!selectedRadio) {
+    console.log("Please make a selection!");
+    renderCharacters();
+    return;
+  }
+
+  const selectedHomeworld = selectedRadio.value;
+  console.log("Selected homeworld: ", selectedHomeworld);
+
+  const filteredHomeworld = characters.filter(
+    (character) =>
+      (character.homeworld ?? "other").toLowerCase() === selectedHomeworld
+  );
+
+  console.log("Filtered Characters: ", filteredHomeworld);
+  renderCharacters(filteredHomeworld);
+
+  cardContainer.style.display = "flex";
+}
+
+function addFilterEventListener() {
+  const filterContainer = document.getElementById(
+    "homeworlds-filter-container"
+  );
+
+  if (filterContainer) {
+    filterContainer.addEventListener("change", filterCharacter);
+    console.log("Filter event listener added!");
+  } else {
+    console.log("Filter container not found!");
+  }
+}
+
+renderCharacters();
+addFilterEventListener();
 
 function toggleCharacters() {
   if (
