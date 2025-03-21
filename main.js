@@ -120,228 +120,93 @@ const charactersData = [
   },
 ];
 
-console.log(characters);
-
-const homeworldsRaw = characters.map(
-  (homeworlds) => homeworlds.homeworld ?? "other"
+const toggleBtn = document.querySelector(".toggleBtn");
+const row = document.querySelector(".row");
+const homeworldsFilterContainer = document.querySelector(
+  ".homeworlds-filter-container"
 );
-console.log(homeworldsRaw);
 
-const homeworldsUnique = [...new Set(homeworldsRaw)];
-console.log(homeworldsUnique);
+const createCharacterCard = ({ pic, name, homeworld = "other" }) => {
+  return `
+        <div class="col">
+          <div class="card">
+              <img src="${pic}" class="card-img-top" alt="${name}">
+              <div class="card-body">
+                <h5 class="card-title">${name}</h5>
+                <p class="card-text">${homeworld}</p>
+              </div>
+            </div>
+          </div>  
+  `;
+};
 
-const homeworldsLowercase = homeworldsUnique.map((homeworld) =>
-  homeworld.toLowerCase()
-);
-console.log(homeworldsLowercase);
+const renderCharacters = (characters) => {
+  row.innerHTML = characters.map(createCharacterCard).join("");
+};
 
-const homeworlds = homeworldsLowercase;
-console.log(homeworlds);
+const toggleCharacters = () => {
+  if (!row.innerHTML) {
+    renderCharacters(charactersData);
+    toggleBtn.textContent = "Hide Characters";
+  } else {
+    row.innerHTML = "";
+    toggleBtn.textContent = "Show Characters";
+  }
 
-const cardContainer = document.getElementById("cardContainer");
-const toggleBtn = document.getElementById("toggleBtn");
-
-console.log(cardContainer);
-
-function renderCharacters(charactersToRender = characters) {
-  console.log(
-    "renderCharacters function ran, incoming characters:",
-    charactersToRender
-  );
-  console.log(
-    "Number of characters to be displayed on the screen:",
-    charactersToRender.length
-  );
-
-  cardContainer.innerHTML = "";
-
-  const homeworld = characters.map(character => character.homeworld ? character.homeworld : "other");
-  console.log(homeworld);
-
-  const inputContainer = document.getElementById("inputContainer");
-
-  renderInput.forEach((homeworld) => {
-    inputContainer.innerHTML += `
-    <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="${homeworld}" id="${homeworld}" value="${homeworld}">
-  <label class="form-check-label" for="${homeworld}">
-    other
-  </label>
-  </div>
-  </div>
-    `
-  })
-  
-  /* const inputFields = `
-  <div id="homeworlds-filter-container" class="d-flex flex-row mb-3 justify-content-center gap-4">
-  
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-tatooine" value="tatooine">
-  <label class="form-check-label" for="homeworld-tatooine">
-   tatooine
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-naboo" value="naboo">
-  <label class="form-check-label" for="homeworld-naboo">
-    naboo
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-alderaan" value="alderaan">
-  <label class="form-check-label" for="homeworld-alderaan">
-    alderaan
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-stewjon" value="stewjon">
-  <label class="form-check-label" for="homeworld-stewjon">
-    stewjon
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-eriadu" value="eriadu">
-  <label class="form-check-label" for="homeworld-eriadu">
-    eriadu
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-kashyyyk" value="kashyyyk">
-  <label class="form-check-label" for="homeworld-kashyyyk">
-    kashyyyk
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-corellia" value="corellia">
-  <label class="form-check-label" for="homeworld-corellia">
-    corellia
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-rodia" value="rodia">
-  <label class="form-check-label" for="homeworld-rodia">
-    rodia
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-bestine" value="bestine">
-  <label class="form-check-label" for="homeworld-bestine">
-    bestine
-  </label>
-  </div>
-  </div>
-
-  <div class="d-flex">
-  <div class="form-check">
-  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-other" value="other">
-  <label class="form-check-label" for="homeworld-other">
-    other
-  </label>
-  </div>
-  </div>
-
-  </div>
-  `; */
-
-  cardContainer.innerHTML += inputFields;
-
-  characters.forEach((character, index) => {
-    const cardTemplate = `
-                <div class="col">
-                    <div class="card">
-                        <img src="${character.pic}" class="card-img-top" alt="${character.name}">
-                        <div class="card-body">
-                            <h5 class="card-title">${character.name}</h5>
-                            <p id="desc-${index}" class="card-text">${character.homeworld}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-    cardContainer.innerHTML += cardTemplate;
+  document.querySelectorAll(".form-check-input").forEach((input) => {
+    input.checked = false;
   });
+};
 
-  addFilterEventListener();
-  console.log("filteredCharacter");
-  console.log("Rendered characters:", characters);
-}
+const newArray = (arr, key) => arr.map((item) => item[key]);
 
-function filterCharacter() {
-  const selectedRadio = document.querySelector(
-    'input[name="homeworld"]:checked'
+const getUniqueHomeworlds = (charactersData) => {
+  const homeworldRaw = newArray(charactersData, "homeworld").map(
+    (item) => item ?? "other"
   );
+  return [...new Set(homeworldRaw.map((item) => item.toLowerCase()))];
+};
 
-  if (!selectedRadio) {
-    console.log("Please make a selection!");
-    renderCharacters();
-    return;
-  }
+const createHomeworldFilters = (homeworlds) => {
+  homeworldsFilterContainer.innerHTML = homeworlds
+    .map(
+      (homeworld) => `
+  <div class="form-check">
+  <input class="form-check-input" type="radio" name="homeworld" id="homeworld-${homeworld}" value="${homeworld}">
+  <label class="form-check-label" for="homeworld-${homeworld}">
+   ${homeworld}
+  </label>
+  </div>
+  `
+    )
+    .join("");
+};
 
-  const selectedHomeworld = selectedRadio.value;
-  console.log("Selected homeworld: ", selectedHomeworld);
-
-  const filteredHomeworld = characters.filter(
+const filterCharactersByHomeworld = (homeworld) => {
+  const filteredCharacters = charactersData.filter(
     (character) =>
-      (character.homeworld ?? "other").toLowerCase() === selectedHomeworld
+      (character.homeworld ?? "other").toLowerCase() === homeworld.toLowerCase()
   );
+  renderCharacters(filteredCharacters);
 
-  console.log("Filtered Characters: ", filteredHomeworld);
-  renderCharacters(filteredHomeworld);
-
-  cardContainer.style.display = "flex";
-}
-
-function addFilterEventListener() {
-  const filterContainer = document.getElementById(
-    "homeworlds-filter-container"
-  );
-
-  if (filterContainer) {
-    filterContainer.addEventListener("change", filterCharacter);
-    console.log("Filter event listener added!");
-  } else {
-    console.log("Filter container not found!");
+  if (filteredCharacters > 0) {
+    toggleBtn.textContent = "Hide Characters";
   }
-}
+};
 
-renderCharacters();
-addFilterEventListener();
+const addHomeworldFilterListeners = () => {
+  const checkInputs = document.querySelectorAll(".form-check-input");
+  console.log(checkInputs);
+  checkInputs.forEach((input) => {
+    input.addEventListener("click", () =>
+      filterCharactersByHomeworld(input.value)
+    );
+  });
+};
 
-function toggleCharacters() {
-  if (
-    cardContainer.style.display === "none" ||
-    cardContainer.style.display === ""
-  ) {
-    cardContainer.style.display = "flex";
-    renderCharacters();
-    toggleBtn.innerHTML = "Hide Characters";
-  } else {
-    cardContainer.style.display = "none";
-    toggleBtn.innerHTML = "Show Characters";
-  }
-}
+document.addEventListener("DOMContentLoaded", () => {
+  toggleBtn.addEventListener("click", toggleCharacters);
+  const uniqueHomeworlds = getUniqueHomeworlds(charactersData);
+  createHomeworldFilters(uniqueHomeworlds);
+  addHomeworldFilterListeners();
+});
