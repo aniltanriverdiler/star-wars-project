@@ -39,7 +39,6 @@
 
 .card-img-top {
   max-height: 300px;
-  object-fit: contain;
   width: 100%; 
 }
 
@@ -47,4 +46,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center; 
+}
+
+.form-check-input:checked {
+  background-color: #710100 !important;
+  border-color: #710100 !important;
 }

@@ -146,10 +146,14 @@ const renderCharacters = (characters) => {
 
 const toggleCharacters = () => {
   if (!row.innerHTML) {
+    console.log(homeworldsFilterContainer);
+    homeworldsFilterContainer.classList.replace("d-none", "d-flex");
+    // homeworldsFilterContainer.classList.remove{"d-none"};
     renderCharacters(charactersData);
     toggleBtn.textContent = "Hide Characters";
   } else {
     row.innerHTML = "";
+    homeworldsFilterContainer.classList.replace("d-flex", "d-none");
     toggleBtn.textContent = "Show Characters";
   }
 
