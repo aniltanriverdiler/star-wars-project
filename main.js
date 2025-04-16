@@ -126,6 +126,7 @@ const homeworldsFilterContainer = document.querySelector(
   ".homeworlds-filter-container"
 );
 
+// Create Card 
 const createCharacterCard = ({ pic, name, homeworld = "other" }) => {
   return `
         <div class="col">
@@ -144,11 +145,11 @@ const renderCharacters = (characters) => {
   row.innerHTML = characters.map(createCharacterCard).join("");
 };
 
+// Show - Hide Button
 const toggleCharacters = () => {
   if (!row.innerHTML) {
     console.log(homeworldsFilterContainer);
     homeworldsFilterContainer.classList.replace("d-none", "d-flex");
-    // homeworldsFilterContainer.classList.remove{"d-none"};
     renderCharacters(charactersData);
     toggleBtn.textContent = "Hide Characters";
   } else {
@@ -171,6 +172,7 @@ const getUniqueHomeworlds = (charactersData) => {
   return [...new Set(homeworldRaw.map((item) => item.toLowerCase()))];
 };
 
+// Filter Character
 const createHomeworldFilters = (homeworlds) => {
   homeworldsFilterContainer.innerHTML = homeworlds
     .map(
